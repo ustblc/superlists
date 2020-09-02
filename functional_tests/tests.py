@@ -86,12 +86,13 @@ class NewVisitorTest(LiveServerTestCase):
         # lemon 访问首页
         # 页面中是看不到lc的待办清单的
         self.browser.get(self.live_server_url)
-        page_text = self.browser.find_elements_by_tag_name("body").text
+        page_text = self.browser.find_element_by_tag_name("body").text
         self.assertNotIn("Learn django-TDD", page_text)
         self.assertNotIn("water-sword project", page_text)
 
         # lemon输入了一个新的待办事项，新建一个清单
         # 他不像lc那样好学
+        input_box = self.browser.find_element_by_id("id_new_item")
         input_box.send_keys("play computer")
         input_box.send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table("1:play computer")
@@ -102,7 +103,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertNotEqual(lemon_list_url, lc_list_url)
 
         # 这个页面还是没有lc的清单
-        page_text = self.browser.page_text = self.browser.find_elements_by_tag_name("body").text
+        page_text = self.browser.page_text = self.browser.find_element_by_tag_name("body").text
         self.assertNotIn("Learn django-TDD", page_text)
         self.assertIn("play computer", page_text)
 
