@@ -93,9 +93,9 @@ class NewVisitorTest(LiveServerTestCase):
         # lemon输入了一个新的待办事项，新建一个清单
         # 他不像lc那样好学
         input_box = self.browser.find_element_by_id("id_new_item")
-        input_box.send_keys("play computer")
+        input_box.send_keys("Play computer")
         input_box.send_keys(Keys.ENTER)
-        self.wait_for_row_in_list_table("1:play computer")
+        self.wait_for_row_in_list_table("1:Play computer")
 
         # lemon获得了他的唯一的url
         lemon_list_url = self.browser.current_url
@@ -105,6 +105,6 @@ class NewVisitorTest(LiveServerTestCase):
         # 这个页面还是没有lc的清单
         page_text = self.browser.page_text = self.browser.find_element_by_tag_name("body").text
         self.assertNotIn("Learn django-TDD", page_text)
-        self.assertIn("play computer", page_text)
+        self.assertIn("Play computer", page_text)
 
         # 他们俩都很满意，然后lc又去学习去了
