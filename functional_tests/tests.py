@@ -1,13 +1,13 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium.common.exceptions import WebDriverException
 import time
 
 MAX_WAIT = 10
 
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
     def setUp(self) -> None:
         self.browser = webdriver.Firefox()
 
@@ -50,7 +50,7 @@ class NewVisitorTest(LiveServerTestCase):
         # 然后他按回车键后，页面更新了
         # 待办事项表格中显示了"1:Learn django-TDD"
         input_box.send_keys(Keys.ENTER)
-        self.wait_for_row_in_list_table("1:Learn django-TDD")
+        self.wait_for_row_in_list_table("1: Learn django-TDD")
 
         # 页面中又显示了一个文本框，可以输入其他的待办事项
         # 他输入了"Complete water-sword project"
@@ -60,8 +60,8 @@ class NewVisitorTest(LiveServerTestCase):
         time.sleep(1)
 
         # 页面再次更新，他的清单中显示了这两个待办事项
-        self.wait_for_row_in_list_table("2:Complete water-sword project")
-        self.wait_for_row_in_list_table("1:Learn django-TDD")
+        self.wait_for_row_in_list_table("2: Complete water-sword project")
+        self.wait_for_row_in_list_table("1: Learn django-TDD")
 
         # 他很满意，他继续学习去了
 
@@ -71,7 +71,7 @@ class NewVisitorTest(LiveServerTestCase):
         input_box = self.browser.find_element_by_id("id_new_item")
         input_box.send_keys("Learn django-TDD")
         input_box.send_keys(Keys.ENTER)
-        self.wait_for_row_in_list_table("1:Learn django-TDD")
+        self.wait_for_row_in_list_table("1: Learn django-TDD")
 
         # 他注意到清单有唯一的url
         lc_list_url = self.browser.current_url
@@ -95,7 +95,7 @@ class NewVisitorTest(LiveServerTestCase):
         input_box = self.browser.find_element_by_id("id_new_item")
         input_box.send_keys("Play computer")
         input_box.send_keys(Keys.ENTER)
-        self.wait_for_row_in_list_table("1:Play computer")
+        self.wait_for_row_in_list_table("1: Play computer")
 
         # lemon获得了他的唯一的url
         lemon_list_url = self.browser.current_url
@@ -112,24 +112,24 @@ class NewVisitorTest(LiveServerTestCase):
     def test_layout_and_styling(self):
         # lc访问首页
         self.browser.get(self.live_server_url)
-        self.browser.set_window_size(1024, 768)
+        self.browser.set_window_size(2560, 1440)
 
         # 他看到输入框完美的居中显示
         input_box = self.browser.find_element_by_id("id_new_item")
         self.assertAlmostEqual(
             input_box.location['x'] + input_box.size['width'] / 2,
-            512,
+            1280,
             delta=10
         )
 
         # 他新建了一个清单，看到输入框完美的居中显示
         input_box.send_keys("testing")
         input_box.send_keys(Keys.ENTER)
-        self.wait_for_row_in_list_table("1:testing")
+        self.wait_for_row_in_list_table("1: testing")
         input_box = self.browser.find_element_by_id("id_new_item")
         self.assertAlmostEqual(
             input_box.location['x'] + input_box.size['width'] / 2,
-            512,
+            1280,
             delta=10
         )
 
