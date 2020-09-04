@@ -27,7 +27,7 @@ def _get_latest_source(source_folder):
     else:
         run(f"git clone {REPO_URL}")
 
-    current_commit = local("git log -n -1 --format=%H", capture=True)
+    current_commit = local("git log -n 1 --format=%H", capture=True)
     run(f"cd {source_folder} && git reset --hard {current_commit}")
 
 
