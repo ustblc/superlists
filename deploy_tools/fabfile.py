@@ -39,7 +39,7 @@ def _update_settings(source_folder, sitename):
     if not exists(secret_key_file):
         chars = "sdjklfjsfkl!~sada.@#$@#(_+s"
         key = "".join(random.SystemRandom().choice(chars) for _ in range(50))
-        append((secret_key_file, f"SECRET_KEY = '{key}'"))
+        append(secret_key_file, f"SECRET_KEY = '{key}'")
     append(setting_path, "\nfrom .secret_key import SECRET_KEY")
 
 
