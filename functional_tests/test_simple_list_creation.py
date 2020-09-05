@@ -1,36 +1,10 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-from selenium.common.exceptions import WebDriverException
+from .base import FunctionalTest
 import time
-import os
-
-MAX_WAIT = 10
 
 
-class NewVisitorTest(StaticLiveServerTestCase):
-    def setUp(self) -> None:
-        self.browser = webdriver.Firefox()
-        staging_server = os.environ.get("STAGING_SERVER")
-        if staging_server:
-            self.live_server_url = "http://" + staging_server
-
-    def tearDown(self) -> None:
-        self.browser.quit()
-
-    def wait_for_row_in_list_table(self, row_text):
-        start_time = time.time()
-        while True:
-            try:
-                table = self.browser.find_element_by_id("id_list_table")
-                rows = table.find_elements_by_tag_name("tr")
-                self.assertIn(row_text, [row.text for row in rows])
-                return
-            except (AssertionError, WebDriverException) as e:
-                if time.time() - start_time > MAX_WAIT:
-                    raise e
-                time.sleep(0.5)
-
+class NewVisitorTest(FunctionalTest):
     def test_can_start_a_list_and_retrieve_it_later(self):
         # lc 听说有一个很酷的在线代办事项应用
         # 他去看了这个应用的首页
@@ -112,27 +86,3 @@ class NewVisitorTest(StaticLiveServerTestCase):
         self.assertIn("Play computer", page_text)
 
         # 他们俩都很满意，然后lc又去学习去了
-
-    def test_layout_and_styling(self):
-        # lc访问首页
-        self.browser.get(self.live_server_url)
-        self.browser.set_window_size(2560, 1440)
-
-        # 他看到输入框完美的居中显示
-        input_box = self.browser.find_element_by_id("id_new_item")
-        self.assertAlmostEqual(
-            input_box.location['x'] + input_box.size['width'] / 2,
-            1280,
-            delta=10
-        )
-
-        # 他新建了一个清单，看到输入框完美的居中显示
-        input_box.send_keys("testing")
-        input_box.send_keys(Keys.ENTER)
-        self.wait_for_row_in_list_table("1: testing")
-        input_box = self.browser.find_element_by_id("id_new_item")
-        self.assertAlmostEqual(
-            input_box.location['x'] + input_box.size['width'] / 2,
-            1280,
-            delta=10
-        )
