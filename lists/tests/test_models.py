@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
 from lists.models import Item, List
+from django.shortcuts import redirect
 
 
 class ListAndItemModelTest(TestCase):
@@ -40,3 +41,7 @@ class ListAndItemModelTest(TestCase):
         except ValidationError:
             pass
         self.assertEqual(Item.objects.count(), 0)
+
+    def test_get_absolute_url(self):
+        list_ = List.objects.create()
+        self.assertEqual(list_.get_get_absolute_url(), f"/lists/{list_.id}/")
