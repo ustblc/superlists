@@ -16,7 +16,7 @@ class NewVisitorTest(FunctionalTest):
         self.assertIn("To-Do", header_text)
 
         # 应用邀请他输入一个代办事项
-        input_box = self.browser.find_element_by_id("id_new_item")
+        input_box = self.get_item_input_box()
         self.assertEqual(
             input_box.get_attribute('placeholder'),
             "Enter a to-do item"
@@ -32,7 +32,7 @@ class NewVisitorTest(FunctionalTest):
 
         # 页面中又显示了一个文本框，可以输入其他的待办事项
         # 他输入了"Complete water-sword project"
-        input_box = self.browser.find_element_by_id("id_new_item")
+        input_box = self.get_item_input_box()
         input_box.send_keys("Complete water-sword project")
         input_box.send_keys(Keys.ENTER)
         time.sleep(1)
@@ -46,7 +46,7 @@ class NewVisitorTest(FunctionalTest):
     def test_multiple_users_can_start_lists_at_different_urls(self):
         # lc新建了一个待办事项清单
         self.browser.get(self.live_server_url)
-        input_box = self.browser.find_element_by_id("id_new_item")
+        input_box = self.get_item_input_box()
         input_box.send_keys("Learn django-TDD")
         input_box.send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table("1: Learn django-TDD")
@@ -70,7 +70,7 @@ class NewVisitorTest(FunctionalTest):
 
         # lemon输入了一个新的待办事项，新建一个清单
         # 他不像lc那样好学
-        input_box = self.browser.find_element_by_id("id_new_item")
+        input_box = self.get_item_input_box()
         input_box.send_keys("Play computer")
         input_box.send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table("1: Play computer")
