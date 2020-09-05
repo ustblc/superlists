@@ -7,7 +7,7 @@ class ItemValidationTest(FunctionalTest):
         # lc访问首页，不小心提交了一个空的待办事项
         # 输入框没有输入内容，他就按下了回车键
         self.browser.get(self.live_server_url)
-        input_box = self.browser.find_element_by_id("id_new_item").send_keys(Keys.ENTER)
+        self.browser.find_element_by_id("id_new_item").send_keys(Keys.ENTER)
 
         # 首页刷新了，显示一个错误信息
         # 提示待办事项不能为空
