@@ -34,6 +34,9 @@ class ListAndItemModelTest(TestCase):
     def test_can_not_save_empty_list_items(self):
         list_ = List.objects.create()
         item = Item(list=list_, text="")
-        with self.assertRaises(ValidationError):
-            item.save()
+        try:
             item.full_clean()
+            item.save()
+        except ValidationError:
+            pass
+        self.assertEqual(Item.objects.count(), 0)
