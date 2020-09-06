@@ -35,7 +35,6 @@ class NewVisitorTest(FunctionalTest):
         input_box = self.get_item_input_box()
         input_box.send_keys("Complete water-sword project")
         input_box.send_keys(Keys.ENTER)
-        time.sleep(1)
 
         # 页面再次更新，他的清单中显示了这两个待办事项
         self.wait_for_row_in_list_table("2: Complete water-sword project")
